@@ -78,6 +78,8 @@ docker compose ps
 * **Container Name:** `gaming-kafka`
 * **Healthcheck:** Verified via `kafka-broker-api-versions.sh` on `localhost:9092` until status transitions to `(healthy)`.
 
+![Docker Cluster Status](assets/01-docker-cluster-status.png)
+
 ---
 
 ### Step 1: Infrastructure Provisioning (Topic Management)
@@ -150,7 +152,7 @@ Kafka allows dynamic runtime configuration without requiring cluster restarts:
      --describe --topic order_created
    ```
 
-![Topic Scaling and Dynamic Retention](screenshots/02-topic-scaling-retention.png)
+![Topic Scaling and Dynamic Retention](assets/02-topic-scaling-retention.png)
 
 ---
 
@@ -187,7 +189,7 @@ Deploy multiple consumers under the same group `warehouse-team` to achieve paral
    * Orders are split evenly between Consumer A and Consumer B with zero duplicate deliveries.
    * Upon gracefully shutting down Consumer B (`Ctrl+C`), Kafka initiates a **Rebalance Protocol**, assigning all 5 partitions to Consumer A without dropping any incoming messages.
 
-![Consumer Groups Load Balancing](screenshots/03-consumer-groups-load-balancing.png)
+![Consumer Groups Load Balancing](assets/03-consumer-groups-load-balancing.png)
 
 ---
 
@@ -207,7 +209,7 @@ $$\text{LAG} = \text{LOG-END-OFFSET} - \text{CURRENT-OFFSET}$$
 
 Notice how `LAG` elevates to `1` across receiving partitions, with Kafka retaining unconsumed messages safely on disk:
 
-![Consumer Lag Monitoring](screenshots/04-consumer-lag-monitoring.png)
+![Consumer Lag Monitoring](assets/04-consumer-lag-monitoring.png)
 
 4. **Consumer Recovery:** Re-launching Consumer A immediately reads only the uncommitted messages, swiftly restoring `LAG` to `0` across all partitions.
 
